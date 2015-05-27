@@ -1,13 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe Journey, type: :model do
-  describe 'new journey' do
+  describe 'create' do
     it 'assigns a customer location to a taxi' do
       latitude = 10
       longitude = 20
       taxi = Taxi.create(latitude: 0, longitude: 0)
-      Journey.new(latitude, longitude)
+      journey = Journey.new(latitude, longitude)
+      journey.create
+      expect(journey.errors).to eq([])
       expect(taxi.reload).to be_assigned
+    end
+
+    it 'should not assign a taxi if no taxi is available' do
+      latitude = 10
+      longitude = 20
+      journey = Journey.new(latitude, longitude)
+      journey.create
+      expect(journey.errors).to eq(['No Taxi Available'])
     end
   end
 end
