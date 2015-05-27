@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150527153321) do
+ActiveRecord::Schema.define(version: 20150527181017) do
 
   create_table "taxis", force: :cascade do |t|
     t.float    "latitude"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20150527153321) do
     t.datetime "updated_at",         null: false
     t.float    "customer_latitude"
     t.float    "customer_longitude"
+    t.string   "color"
   end
 
 end
