@@ -5,10 +5,6 @@ class Taxi < ActiveRecord::Base
     distance_between(self.latitude, self.longitude, latitude, longitude)
   end
 
-  def assign_to(latitude, longitude)
-    update_attributes(customer_latitude: latitude, customer_longitude: longitude)
-  end
-
   def assigned?
     !(customer_latitude.nil? && customer_longitude.nil?)
   end

@@ -10,10 +10,19 @@ RSpec.describe EmptyTaxi, type: :model do
     end
 
     it 'gives nil if there is no empty taxi' do
-      Taxi.create!(latitude: 0, longitude: 0).assign_to(10,10)
-      Taxi.create!(latitude: 5, longitude: 4).assign_to(10,20)
-      Taxi.create!(latitude: 8, longitude: 9).assign_to(10,30)
+      EmptyTaxi.create!(latitude: 0, longitude: 0).assign_to(10,10)
+      EmptyTaxi.create!(latitude: 5, longitude: 4).assign_to(10,20)
+      EmptyTaxi.create!(latitude: 8, longitude: 9).assign_to(10,30)
       expect(EmptyTaxi.nearest_to(4, 5)).to eq(nil)
+    end
+  end
+
+  describe 'assign to' do
+    it 'should assign a taxi to the location of the customer' do
+      taxi = EmptyTaxi.new(latitude: 0, longitude: 0)
+      taxi.assign_to(10, 10)
+      expect(taxi.customer_latitude).to eq(10)
+      expect(taxi.customer_longitude).to eq(10)
     end
   end
 

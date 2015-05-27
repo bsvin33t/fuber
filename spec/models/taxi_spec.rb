@@ -8,18 +8,9 @@ RSpec.describe Taxi, type: :model do
     end
   end
 
-  describe 'assign to' do
-    it 'should assign a taxi to the location of the customer' do
-      taxi = Taxi.new(latitude: 0, longitude: 0)
-      taxi.assign_to(10, 10)
-      expect(taxi.customer_latitude).to eq(10)
-      expect(taxi.customer_longitude).to eq(10)
-    end
-  end
-
   describe 'assigned' do
     it 'should return true if a customer is assigned to it' do
-      taxi = Taxi.new(latitude: 0, longitude: 0)
+      taxi = EmptyTaxi.new(latitude: 0, longitude: 0)
       taxi.assign_to(10, 10)
       expect(taxi).to be_assigned
     end
