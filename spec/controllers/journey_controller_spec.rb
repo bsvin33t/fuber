@@ -56,4 +56,21 @@ RSpec.describe JourneyController, type: :controller do
       expect(response.body).to include('Journey Started Successfully')
     end
   end
+
+  describe 'PUT end' do
+    it 'ends the journey at the given location' do
+      Taxi.create!(latitude: 0, longitude: 0, color: 'pink')
+      journey = Journey.create!(start_latitude: 10, start_longitude: 10)
+      journey.start
+      args = {
+          id: journey.id,
+          journey: {
+              latitude: 10,
+              longitude: 20
+          }}
+      put :end, args
+      expect(journey.reload.end_time).not_to be_nil
+      expect(response.body).to include('Journey Ended Successfully')
+    end
+  end
 end

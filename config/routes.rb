@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :journey, only: [:create] do
     member do
       put 'start'
+      put 'end'
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

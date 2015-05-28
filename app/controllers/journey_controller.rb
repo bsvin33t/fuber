@@ -17,6 +17,12 @@ class JourneyController < ApplicationController
     end
   end
 
+  def end
+    if Journey.find(params[:id]).end(end_latitude: journey_params[:latitude], end_longitude: journey_params[:longitude])
+      render json: {message: 'Journey Ended Successfully'}
+    end
+  end
+
   private
 
   def journey_params
