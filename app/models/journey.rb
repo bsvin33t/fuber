@@ -15,6 +15,12 @@ class Journey < ActiveRecord::Base
     update_attributes(start_time: DateTime.current)
   end
 
+  def end(destination)
+    update_attributes(end_time: DateTime.current,
+                      end_latitude: destination[:end_latitude],
+                      end_longitude: destination[:end_longitude])
+  end
+
 
   private
 

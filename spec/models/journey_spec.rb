@@ -60,4 +60,16 @@ RSpec.describe Journey, type: :model do
       expect(journey.start_time).not_to be_nil
     end
   end
+
+  describe 'end' do
+    it 'adds the end time and end location of the trip' do
+      Taxi.create(latitude: 0, longitude: 0)
+      journey = Journey.create!(start_latitude: 10, start_longitude: 10)
+      journey.start
+      journey.end(end_latitude: 10, end_longitude: 20)
+      expect(journey.end_latitude).to eq(10)
+      expect(journey.end_longitude).to eq(20)
+      expect(journey.end_time).not_to be_nil
+    end
+  end
 end
