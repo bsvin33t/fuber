@@ -1,21 +1,21 @@
-class Journey
+class Journey < ActiveRecord::Base
 
-  attr_reader :messages
+  attr_accessor :conditions
 
-  def initialize(latitude, longitude, conditions={})
-    @messages = []
-    @customer_latitude = latitude
-    @customer_longitude = longitude
-    @conditions = conditions.delete_if { |key, value| value.blank? }
+  belongs_to :taxi
+
+  validates :taxi, presence: true
+  validates :start_latitude, presence: true
+  validates :start_longitude, presence: true
+
+  before_validation :assign_empty_taxi
+
+
+  private
+
+  def assign_empty_taxi
+    self.taxi = EmptyTaxi.nearest_to(start_latitude, start_longitude, conditions)
+    self.taxi.assign_to(start_latitude, start_longitude) if self.taxi
   end
 
-  def create
-    taxi = EmptyTaxi.nearest_to(@customer_latitude, @customer_longitude, @conditions)
-    if taxi
-      taxi.assign_to(@customer_latitude, @customer_longitude)
-      @messages << 'Taxi Assigned Successfully'
-    else
-      @messages << 'No Taxi Available'
-    end
-  end
 end

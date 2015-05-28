@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150527181017) do
+ActiveRecord::Schema.define(version: 20150528070959) do
+
+  create_table "journeys", force: :cascade do |t|
+    t.float   "start_latitude"
+    t.float   "start_longitude"
+    t.float   "stop_latitude"
+    t.float   "stop_longitude"
+    t.integer "taxi_id"
+  end
 
   create_table "taxis", force: :cascade do |t|
     t.float    "latitude"
