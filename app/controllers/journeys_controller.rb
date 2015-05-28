@@ -1,10 +1,14 @@
 class JourneysController < ApplicationController
   def create
-    journey = Journey.new(journey_params[:latitude],
-                journey_params[:longitude],
-                color: journey_params[:color])
-    journey.create
-    render json: journey.messages
+    journey = Journey.new(start_latitude: journey_params[:latitude],
+                          start_longitude: journey_params[:longitude],
+                          conditions: {color: journey_params[:color]})
+    if journey.save
+      render json: {journey_id: journey.id, message: 'Taxi Assigned Successfully'}
+    else
+      render json: 'No Taxi Available'
+    end
+
   end
 
   private
