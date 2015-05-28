@@ -17,6 +17,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'web-console', '~> 2.0'
   gem 'sqlite3'
+  gem 'timecop'
   gem 'spring'
 end
 

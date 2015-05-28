@@ -8,4 +8,8 @@ class Taxi < ActiveRecord::Base
   def assigned?
     !(customer_latitude.nil? && customer_longitude.nil?)
   end
+
+  def hipster?
+    color == 'pink'
+  end
 end

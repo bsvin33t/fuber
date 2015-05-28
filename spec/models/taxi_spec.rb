@@ -20,4 +20,16 @@ RSpec.describe Taxi, type: :model do
       expect(taxi).not_to be_assigned
     end
   end
+
+  describe 'hipster' do
+    it 'should be a hipster car if the color is pink' do
+      taxi = Taxi.new(latitude: 0, longitude: 0, color: 'pink')
+      expect(taxi).to be_hipster
+    end
+
+    it 'should not be a hipster if the color is not pink' do
+      taxi = Taxi.new(latitude: 0, longitude: 0, color: nil)
+      expect(taxi).not_to be_hipster
+    end
+  end
 end

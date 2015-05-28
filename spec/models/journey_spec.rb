@@ -72,4 +72,32 @@ RSpec.describe Journey, type: :model do
       expect(journey.end_time).not_to be_nil
     end
   end
+
+  describe 'payment amount' do
+    it 'returns the amount that has to be paid by the customer for the ride' do
+      t = Time.now
+      Taxi.create!(latitude: 0, longitude: 0)
+      journey = Journey.create!(start_latitude: 10, start_longitude: 10)
+      Timecop.freeze(t - 30.minutes) do
+        journey.start
+      end
+      Timecop.freeze(t) do
+        journey.end(end_latitude: 10, end_longitude: 20)
+      end
+      expect(journey.reload.payment_amount).to eq(50)
+    end
+
+    it 'returns the amount with the extras when a hipster taxi is used' do
+      t = Time.now
+      Taxi.create!(latitude: 0, longitude: 0, color: 'pink')
+      journey = Journey.create!(start_latitude: 10, start_longitude: 10)
+      Timecop.freeze(t - 30.minutes) do
+        journey.start
+      end
+      Timecop.freeze(t) do
+        journey.end(end_latitude: 10, end_longitude: 20)
+      end
+      expect(journey.reload.payment_amount).to eq(55)
+    end
+  end
 end
