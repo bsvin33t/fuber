@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe JourneysController, type: :controller do
+RSpec.describe JourneyController, type: :controller do
 
   describe 'POST create' do
     it 'assigns a taxi to a customer in the given location' do
@@ -44,6 +44,16 @@ RSpec.describe JourneysController, type: :controller do
         post :create, args
       }.to change { Journey.count }.by(0)
       expect(response.body).to include('No Taxi Available')
+    end
+  end
+
+  describe 'PUT start' do
+    it 'starts the journey from the customer location' do
+      Taxi.create!(latitude: 0, longitude: 0, color: 'pink')
+      journey = Journey.create!(start_latitude: 10, start_longitude: 10)
+      put :start, id: journey.id
+      expect(journey.reload.start_time).not_to be_nil
+      expect(response.body).to include('Journey Started Successfully')
     end
   end
 end

@@ -1,4 +1,4 @@
-class JourneysController < ApplicationController
+class JourneyController < ApplicationController
   def create
     journey = Journey.new(start_latitude: journey_params[:latitude],
                           start_longitude: journey_params[:longitude],
@@ -9,6 +9,12 @@ class JourneysController < ApplicationController
       render json: 'No Taxi Available'
     end
 
+  end
+
+  def start
+    if Journey.find(params[:id]).start
+      render json: {message: 'Journey Started Successfully'}
+    end
   end
 
   private
