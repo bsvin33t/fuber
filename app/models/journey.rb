@@ -11,6 +11,11 @@ class Journey < ActiveRecord::Base
   before_validation :assign_empty_taxi
 
 
+  def start
+    update_attributes(start_time: DateTime.current)
+  end
+
+
   private
 
   def assign_empty_taxi

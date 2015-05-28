@@ -51,4 +51,13 @@ RSpec.describe Journey, type: :model do
       expect(taxi_2.reload).not_to be_assigned
     end
   end
+
+  describe 'start' do
+    it 'adds the start time of the trip' do
+      Taxi.create(latitude: 0, longitude: 0)
+      journey = Journey.create!(start_latitude: 10, start_longitude: 10)
+      journey.start
+      expect(journey.start_time).not_to be_nil
+    end
+  end
 end
