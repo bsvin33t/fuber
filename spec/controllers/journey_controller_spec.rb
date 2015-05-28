@@ -73,4 +73,15 @@ RSpec.describe JourneyController, type: :controller do
       expect(response.body).to include('Journey Ended Successfully')
     end
   end
+
+  describe 'GET payment amount' do
+    it 'gets the amount that has to be paid by the customer for the journey' do
+      Taxi.create!(latitude: 0, longitude: 0)
+      journey = Journey.create!(start_latitude: 10, start_longitude: 10)
+      journey.start
+      journey.end(end_latitude: 10, end_longitude: 20)
+      get :payment_amount, id: journey.id
+      expect(response.body).to include('21')
+    end
+  end
 end

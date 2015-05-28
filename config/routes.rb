@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     member do
       put 'start'
       put 'end'
+      get 'payment_amount'
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

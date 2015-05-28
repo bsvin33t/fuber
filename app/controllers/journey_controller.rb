@@ -23,6 +23,10 @@ class JourneyController < ApplicationController
     end
   end
 
+  def payment_amount
+    render json: {payment_amount: Journey.find(params[:id]).payment_amount}
+  end
+
   private
 
   def journey_params
