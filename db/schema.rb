@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150528090048) do
+ActiveRecord::Schema.define(version: 20150528181613) do
 
   create_table "journeys", force: :cascade do |t|
     t.float    "start_latitude"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20150528090048) do
     t.datetime "end_time"
     t.float    "end_latitude"
     t.float    "end_longitude"
+    t.integer  "status",          default: 0
   end
 
   create_table "taxis", force: :cascade do |t|

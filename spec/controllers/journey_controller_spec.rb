@@ -49,8 +49,7 @@ RSpec.describe JourneyController, type: :controller do
 
   describe 'PUT start' do
     it 'starts the journey from the customer location' do
-      Taxi.create!(latitude: 0, longitude: 0, color: 'pink')
-      journey = Journey.create!(start_latitude: 10, start_longitude: 10)
+      journey = create(:unstarted_journey)
       put :start, id: journey.id
       expect(journey.reload.start_time).not_to be_nil
       expect(response.body).to include('Journey Started Successfully')
@@ -60,8 +59,7 @@ RSpec.describe JourneyController, type: :controller do
   describe 'PUT end' do
     it 'ends the journey at the given location' do
       Taxi.create!(latitude: 0, longitude: 0, color: 'pink')
-      journey = Journey.create!(start_latitude: 10, start_longitude: 10)
-      journey.start
+      journey = create(:started_journey)
       args = {
           id: journey.id,
           journey: {
@@ -76,10 +74,7 @@ RSpec.describe JourneyController, type: :controller do
 
   describe 'GET payment amount' do
     it 'gets the amount that has to be paid by the customer for the journey' do
-      Taxi.create!(latitude: 0, longitude: 0)
-      journey = Journey.create!(start_latitude: 10, start_longitude: 10)
-      journey.start
-      journey.end(end_latitude: 10, end_longitude: 20)
+      journey = create(:ended_journey)
       get :payment_amount, id: journey.id
       expect(response.body).to include('21')
     end

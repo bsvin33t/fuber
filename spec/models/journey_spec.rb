@@ -63,9 +63,8 @@ RSpec.describe Journey, type: :model do
 
   describe 'end' do
     it 'adds the end time and end location of the trip' do
-      Taxi.create(latitude: 0, longitude: 0)
-      journey = Journey.create!(start_latitude: 10, start_longitude: 10)
-      journey.start
+      journey = create(:started_journey)
+      journey = Journey.find(journey.id)
       journey.end(end_latitude: 10, end_longitude: 20)
       expect(journey.end_latitude).to eq(10)
       expect(journey.end_longitude).to eq(20)
@@ -76,27 +75,16 @@ RSpec.describe Journey, type: :model do
   describe 'payment amount' do
     it 'returns the amount that has to be paid by the customer for the ride' do
       t = Time.now
-      Taxi.create!(latitude: 0, longitude: 0)
-      journey = Journey.create!(start_latitude: 10, start_longitude: 10)
-      Timecop.freeze(t - 30.minutes) do
-        journey.start
-      end
-      Timecop.freeze(t) do
-        journey.end(end_latitude: 10, end_longitude: 20)
-      end
-      expect(journey.reload.payment_amount).to eq(50)
+      journey = create(:ended_journey, start_time: t, end_time: t + 30.minutes)
+      journey = Journey.find(journey.id)
+      expect(journey.payment_amount).to eq(50)
     end
 
     it 'returns the amount with the extras when a hipster taxi is used' do
       t = Time.now
-      Taxi.create!(latitude: 0, longitude: 0, color: 'pink')
-      journey = Journey.create!(start_latitude: 10, start_longitude: 10)
-      Timecop.freeze(t - 30.minutes) do
-        journey.start
-      end
-      Timecop.freeze(t) do
-        journey.end(end_latitude: 10, end_longitude: 20)
-      end
+      taxi = Taxi.create!(latitude: 0, longitude: 0, color: 'pink')
+      journey = create(:ended_journey,taxi: taxi, start_time: t, end_time: t + 30.minutes)
+      journey = Journey.find(journey.id)
       expect(journey.reload.payment_amount).to eq(55)
     end
   end

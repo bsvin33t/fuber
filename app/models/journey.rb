@@ -7,42 +7,37 @@ class Journey < ActiveRecord::Base
   validates :taxi, presence: true
   validates :start_latitude, presence: true
   validates :start_longitude, presence: true
+  validates :end_latitude, presence: true, if: Proc.new { |journey| journey.ended? }
+  validates :end_longitude, presence: true, if: Proc.new { |journey| journey.ended? }
+
+  enum status: [:unstarted, :started, :ended]
 
   before_validation :assign_empty_taxi, if: :new_record?
 
+  after_initialize :set_state
+
 
   def start
-    update_attributes(start_time: DateTime.current)
+    @state.start
   end
 
   def end(destination)
-    update_attributes(end_time: DateTime.current,
-                      end_latitude: destination[:end_latitude],
-                      end_longitude: destination[:end_longitude])
+    @state.end(destination)
   end
 
   def payment_amount
-    (travelled_time * Prices::PERMIN + travelled_distance * Prices::PERKM + extras.to_f).ceil
+    @state.payment_amount
   end
 
 
   private
 
+  def set_state
+    @state = JourneyStateFactory.create(self)
+  end
+
   def assign_empty_taxi
     self.taxi = EmptyTaxi.nearest_to(start_latitude, start_longitude, conditions)
     self.taxi.assign_to(start_latitude, start_longitude) if self.taxi
   end
-
-  def travelled_time
-    (end_time - start_time)/60
-  end
-
-  def travelled_distance
-    distance_between(start_latitude, start_longitude, end_latitude, end_longitude)
-  end
-
-  def extras
-    Prices::HIPSTERCAR if self.taxi.hipster?
-  end
-
 end
