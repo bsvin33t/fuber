@@ -7,9 +7,9 @@ class EmptyTaxi < Taxi
     end
   end
 
-  default_scope { where(customer_latitude: nil, customer_longitude: nil) }
+  default_scope { where(assigned: false) }
 
-  def assign_to(latitude, longitude)
-    update_attributes(customer_latitude: latitude, customer_longitude: longitude)
+  def assign
+    update_attributes(assigned: true)
   end
 end

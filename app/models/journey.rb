@@ -38,6 +38,6 @@ class Journey < ActiveRecord::Base
 
   def assign_empty_taxi
     self.taxi = EmptyTaxi.nearest_to(start_latitude, start_longitude, conditions)
-    self.taxi.assign_to(start_latitude, start_longitude) if self.taxi
+    self.taxi.assign if self.taxi
   end
 end

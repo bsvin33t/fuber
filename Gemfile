@@ -20,5 +20,6 @@ group :development, :test do
   gem 'timecop'
   gem 'factory_girl_rails'
   gem 'spring'
+  gem 'shoulda-matchers'
 end
 
