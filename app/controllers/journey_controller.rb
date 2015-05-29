@@ -1,4 +1,7 @@
 class JourneyController < ApplicationController
+
+  protect_from_forgery with: :null_session
+
   def create
     journey = Journey.new(start_latitude: journey_params[:latitude],
                           start_longitude: journey_params[:longitude],

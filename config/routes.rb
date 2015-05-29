@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :taxi, only: [:index]
+
   resources :journey, only: [:create] do
     member do
       put 'start'
@@ -6,6 +8,8 @@ Rails.application.routes.draw do
       get 'payment_amount'
     end
   end
+
+  root 'taxi#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

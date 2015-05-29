@@ -1,0 +1,21 @@
+<table border="1">
+  <tr>
+    <th>Taxi Id</th>
+    <th>Location</th>
+    <th>Available</th>
+  </tr>
+  <% @taxis.each do |taxi| %>
+      <tr>
+        <td>
+          <%= taxi.id %>
+        </td>
+        <td>
+          <%= taxi.latitude %>, <%= taxi.longitude %>
+        </td>
+        <td>
+          <%= !taxi.assigned? %>
+        </td>
+      </tr>
+  <% end %>
+
+</table>
