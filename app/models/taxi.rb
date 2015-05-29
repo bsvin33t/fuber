@@ -16,4 +16,8 @@ class Taxi < ActiveRecord::Base
   def hipster?
     color == 'pink'
   end
+
+  def unassign
+    update_attributes(assigned: false)
+  end
 end

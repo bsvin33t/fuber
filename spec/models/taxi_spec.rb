@@ -25,6 +25,14 @@ RSpec.describe Taxi, type: :model do
     end
   end
 
+  describe 'unassign' do
+    it 'should change the assigned status of a taxi' do
+      taxi = create(:taxi)
+      taxi.unassign
+      expect(taxi).not_to be_assigned
+    end
+  end
+
   describe 'hipster' do
     it 'should be a hipster car if the color is pink' do
       taxi = Taxi.new(latitude: 0, longitude: 0, color: 'pink')

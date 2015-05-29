@@ -9,6 +9,7 @@ class Journey::StartedJourneyState < Journey::BaseJourneyState
                                          end_longitude: destination[:end_longitude],
                                          status: 'ended')
     if journey
+      @journey.taxi.unassign
       'Journey Ended Successfully'
     else
       "Unable to end journey because: #{@journey.errors.full_messages.join(' ')}"

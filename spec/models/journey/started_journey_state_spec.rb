@@ -2,8 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Journey::StartedJourneyState, type: :model do
 
+  let!(:taxi){ create(:taxi)}
+
   let!(:journey) {
-    journey = create(:started_journey)
+    journey = create(:started_journey, taxi: taxi)
     journey = Journey.find(journey.id)
   }
 
@@ -16,6 +18,10 @@ RSpec.describe Journey::StartedJourneyState, type: :model do
   describe 'end' do
     it 'should return a message that the journey has ended' do
       expect(journey.end(end_latitude: 10, end_longitude: 10)).to eq('Journey Ended Successfully')
+    end
+
+    it 'should unassign the taxi' do
+      expect(taxi).not_to be_assigned
     end
 
     it 'should add a message that the destination is invalid' do

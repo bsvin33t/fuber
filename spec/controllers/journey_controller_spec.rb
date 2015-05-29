@@ -70,8 +70,9 @@ RSpec.describe JourneyController, type: :controller do
   end
 
   describe 'PUT end' do
-    it 'ends the journey at the given location' do
-      journey = create(:started_journey)
+    it 'ends the journey at the given location and unassigns the taxi' do
+      taxi = create(:taxi)
+      journey = create(:started_journey, taxi: taxi)
       args = {
           id: journey.id,
           journey: {
@@ -79,8 +80,8 @@ RSpec.describe JourneyController, type: :controller do
               longitude: 20
           }}
       put :end, args
-      expect(journey.reload.end_time).not_to be_nil
       expect(response.body).to include('Journey Ended Successfully')
+      expect(taxi).not_to be_assigned
     end
 
     it 'gives an error message for an unstarted journey' do

@@ -70,6 +70,14 @@ RSpec.describe Journey, type: :model do
       expect(journey.end_longitude).to eq(20)
       expect(journey.end_time).not_to be_nil
     end
+
+    it 'unassigns the taxi' do
+      taxi = create(:taxi)
+      journey = create(:started_journey, taxi: taxi)
+      journey = Journey.find(journey.id)
+      journey.end(end_latitude: 10, end_longitude: 20)
+      expect(taxi).not_to be_assigned
+    end
   end
 
   describe 'payment amount' do
