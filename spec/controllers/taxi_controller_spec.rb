@@ -7,7 +7,7 @@ RSpec.describe TaxiController, type: :controller do
       10.times {create(:taxi)}
       get :index
       expect(response).to have_http_status(:success)
-      expect()
+      expect(assigns(:taxis)).to eq(Taxi.all)
     end
   end
 
